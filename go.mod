@@ -1,4 +1,4 @@
-module rosm
+module github.com/lianhong2758/rosm
 
 go 1.20
 
