@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func getData(url, ua string) (body []byte, err error) {
+func GetData(url, ua string) (body []byte, err error) {
 	var client = &http.Client{}
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 
