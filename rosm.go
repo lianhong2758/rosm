@@ -3,6 +3,8 @@ package rosm
 import (
 	"bytes"
 	"strconv"
+
+	"github.com/lianhong2758/rosm/process"
 )
 
 // StrIsTrue 判断中文的真假
@@ -31,4 +33,19 @@ func InstStringN(s, substr string, n int) string {
 		buffer.WriteRune(c)
 	}
 	return buffer.String()
+}
+
+// DoOnceOnSuccess 当返回 true, 之后直接通过, 否则下次触发仍会执行
+func DoOnceOnSuccess[Ctx any](f func(Ctx) bool) func(Ctx) bool {
+	init := process.NewOnce()
+	return func(ctx Ctx) (success bool) {
+		success = true
+		init.Do(func() {
+			success = f(ctx)
+		})
+		if !success {
+			init.Reset()
+		}
+		return
+	}
 }
